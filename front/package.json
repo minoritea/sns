@@ -1,0 +1,6 @@
+{
+  "name": "sns",
+  "dependencies": {
+    "astro": "^1.6.8"
+  }
+}
