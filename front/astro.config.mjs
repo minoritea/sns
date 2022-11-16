@@ -1,4 +1,10 @@
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
-export default defineConfig({});
+import react from "@astrojs/react";
+
+// https://astro.build/config
+export default defineConfig({
+  outDir: "../build/web",
+  integrations: [react()]
+});

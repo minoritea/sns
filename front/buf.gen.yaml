@@ -1,0 +1,8 @@
+version: v1
+plugins:
+  - name: es
+    out: src/proto
+    opt: target=ts
+  - name: connect-web
+    out: src/proto
+    opt: target=ts

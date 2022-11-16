@@ -2,5 +2,17 @@
   "name": "sns",
   "dependencies": {
     "astro": "^1.6.8"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^1.2.2",
+    "@bufbuild/connect-web": "^0.3.1",
+    "@bufbuild/protobuf": "^0.2.1",
+    "@bufbuild/protoc-gen-connect-web": "^0.3.1",
+    "@bufbuild/protoc-gen-es": "^0.2.1",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
