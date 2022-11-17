@@ -16,7 +16,7 @@ import (
 	"github.com/minoritea/sns/build/proto/protoconnect"
 )
 
-//go:embed build/web
+//go:embed build/front
 var buildFS embed.FS
 
 type MessageServer struct{}
@@ -36,7 +36,7 @@ func (s *MessageServer) List(ctx context.Context, req *connect.Request[emptypb.E
 func main() {
 	var server MessageServer
 	router := chi.NewRouter()
-	subFS, err := fs.Sub(buildFS, "build/web")
+	subFS, err := fs.Sub(buildFS, "build/front")
 	if err != nil {
 		panic(err)
 	}
