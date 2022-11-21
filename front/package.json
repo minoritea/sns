@@ -1,6 +1,7 @@
 {
   "name": "sns",
   "scripts": {
+    "dev": "astro dev",
     "build": "astro build",
     "proto-ts": "env PATH=\"$PATH:../bin\" buf generate ../proto"
   },

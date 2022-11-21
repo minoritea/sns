@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"embed"
-	"io/fs"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/go-chi/chi"
@@ -15,9 +15,6 @@ import (
 	"github.com/minoritea/sns/build/proto"
 	"github.com/minoritea/sns/build/proto/protoconnect"
 )
-
-//go:embed build/front
-var buildFS embed.FS
 
 type MessageServer struct{}
 
@@ -33,14 +30,20 @@ func (s *MessageServer) List(ctx context.Context, req *connect.Request[emptypb.E
 	), nil
 }
 
+var IsDevelopment = true
+
 func main() {
 	var server MessageServer
 	router := chi.NewRouter()
-	subFS, err := fs.Sub(buildFS, "build/front")
-	if err != nil {
-		panic(err)
+
+	if IsDevelopment {
+		frontendURL, err := url.Parse("http://localhost:6501")
+		if err != nil {
+			panic(err)
+		}
+		router.Handle("/*", httputil.NewSingleHostReverseProxy(frontendURL))
 	}
-	router.Handle("/*", http.FileServer(http.FS(subFS)))
+
 	{
 		_, handler := protoconnect.NewMessageServiceHandler(&server)
 		handler = http.StripPrefix("/rpc", handler)

@@ -1,4 +1,4 @@
-.PHONY: proto-go proto-ts build-front init
+.PHONY: proto-go proto-ts build-front init dev-server
 init:
 	$(MAKE) proto-go
 	$(MAKE) build-front
@@ -41,3 +41,7 @@ proto-ts:
 build-front:
 	rm -rf ./build/front
 	$(MAKE) ./build/front
+
+dev-server:
+	cd front; npm run dev -- --port 6501 &
+	go run github.com/makiuchi-d/arelo@latest -p '**/*.go' -- go run .
