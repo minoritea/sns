@@ -3,7 +3,7 @@ import client, { Message as MessageType } from "~/lib/client"
 import Message from "~/components/message"
 import { scan } from "rxjs"
 
-export default function MessageList() {
+function useMessageStream() {
   const [messages, setMessages] = useState<MessageType[] | null>(null)
   useEffect(() => {
     client.
@@ -11,6 +11,11 @@ export default function MessageList() {
       pipe(scan((acc, res) => acc.concat(res.messages), [] as MessageType[])).
       subscribe(setMessages)
   }, [])
+  return messages
+}
+
+export default function MessageList() {
+  const messages = useMessageStream()
 
   if (messages == null) {
     return <div>loading...</div>
