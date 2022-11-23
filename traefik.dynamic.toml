@@ -1,0 +1,21 @@
+[http.routers.to-rpc]
+service = "rpc"
+rule = "PathPrefix(`/rpc`)"
+[http.routers.to-rpc.tls]
+options = "default"
+
+[http.routers.to-front]
+service = "front"
+rule = "PathPrefix(`/`)"
+[http.routers.to-front.tls]
+options = "default"
+
+[[http.services.rpc.loadBalancer.servers]]
+url = "h2c://localhost:6500"
+
+[[http.services.front.loadBalancer.servers]]
+url = "http://localhost:6600"
+
+[[tls.certificates]]
+certFile = "./ssl/localhost.crt"
+keyFile = "./ssl/localhost.key"

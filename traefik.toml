@@ -1,0 +1,10 @@
+entryPoints.web.address = "127.0.0.1:6400"
+
+[[tls.options.default.certificates]]
+certFile = "./ssl/localhost.crt"
+keyFile = "./ssl/localhost.key"
+
+[accessLog]
+
+[providers.file]
+filename = "./traefik.dynamic.toml"

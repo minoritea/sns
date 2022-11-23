@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/go-chi/chi"
@@ -35,20 +33,9 @@ var IsDevelopment = true
 func main() {
 	var server MessageServer
 	router := chi.NewRouter()
-
-	if IsDevelopment {
-		frontendURL, err := url.Parse("http://localhost:6501")
-		if err != nil {
-			panic(err)
-		}
-		router.Handle("/*", httputil.NewSingleHostReverseProxy(frontendURL))
-	}
-
-	{
-		_, handler := protoconnect.NewMessageServiceHandler(&server)
-		handler = http.StripPrefix("/rpc", handler)
-		router.Handle("/rpc/*", handler)
-	}
+	_, handler := protoconnect.NewMessageServiceHandler(&server)
+	handler = http.StripPrefix("/rpc", handler)
+	router.Handle("/rpc/*", handler)
 	http.ListenAndServe(
 		"localhost:6500",
 		h2c.NewHandler(router, &http2.Server{}),
