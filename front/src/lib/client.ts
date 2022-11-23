@@ -1,21 +1,21 @@
 import { createConnectTransport, createPromiseClient, PromiseClient } from "@bufbuild/connect-web"
-import { MessageService }from "~/proto/message_connectweb"
-import { Message }from "~/proto/message_pb"
+import { MessageStream }from "~/proto/message_connectweb"
+import { Message, Response }from "~/proto/message_pb"
+import { Observable, from } from "rxjs"
 
 export class Client {
-  client: PromiseClient<typeof MessageService>;
+  client: PromiseClient<typeof MessageStream>;
   constructor(serverUrl: string) {
     const transport = createConnectTransport({
       baseUrl: serverUrl
     })
-    this.client = createPromiseClient(MessageService, transport)
+    this.client = createPromiseClient(MessageStream, transport)
   }
 
-  async fetchList(): Promise<Message[]> {
-    const { messages }= await this.client.list(null)
-    return messages
+  open(): Observable<Response> {
+    return from(this.client.open(null))
   }
 }
 
 export default new Client("/rpc")
-export type Message = Message
+export { Message, Response }

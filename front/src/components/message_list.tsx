@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react"
 import client, { Message as MessageType } from "~/lib/client"
 import Message from "~/components/message"
+import { scan } from "rxjs"
 
 export default function MessageList() {
   const [messages, setMessages] = useState<MessageType[] | null>(null)
   useEffect(() => {
-    client.fetchList().then(setMessages)
+    client.
+      open().
+      pipe(scan((acc, res) => acc.concat(res.messages), [] as MessageType[])).
+      subscribe(setMessages)
   }, [])
 
   if (messages == null) {

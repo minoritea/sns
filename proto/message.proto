@@ -6,11 +6,11 @@ package message;
 
 option go_package = "github.com/minoritea/sns/build/proto";
 
-service MessageService {
-  rpc List(google.protobuf.Empty) returns (ListResponse);
+service MessageStream {
+  rpc Open(google.protobuf.Empty) returns (stream Response);
 }
 
-message ListResponse {
+message Response {
   repeated Message messages = 1;
 }
 
