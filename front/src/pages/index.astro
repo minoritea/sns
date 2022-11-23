@@ -1,11 +1,13 @@
 ---
 import MessageList from "~/components/message_list.tsx"
+import MessageForm from "~/components/message_form.tsx"
 ---
 <html>
 <head>
   <meta charset="utf8" />
 </head>
 <body>
+  <MessageForm client:load />
   <MessageList client:load />
 </body>
 </html>

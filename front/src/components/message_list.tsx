@@ -7,8 +7,8 @@ function useMessageStream() {
   const [messages, setMessages] = useState<MessageType[] | null>(null)
   useEffect(() => {
     client.
-      open().
-      pipe(scan((acc, res) => acc.concat(res.messages), [] as MessageType[])).
+      openStream().
+      pipe(scan((acc, res) => acc.concat(res.message), [] as MessageType[])).
       subscribe(setMessages)
   }, [])
   return messages

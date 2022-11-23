@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 	"net/http"
 
 	"github.com/bufbuild/connect-go"
@@ -13,46 +14,37 @@ import (
 	"github.com/minoritea/sns/build/proto/protoconnect"
 )
 
-type MessageStreamServer struct{}
+type MessageServer struct{}
 
-func (s *MessageStreamServer) Open(ctx context.Context, req *connect.Request[emptypb.Empty], ss *connect.ServerStream[proto.Response]) error {
-	messages := []*proto.Message{
-		{
-			Body: "Hello, this is the first message.",
-		},
-		{
-			Body: "Hello, this is the second message.",
-		},
-		{
-			Body: "Hello, this is the third message.",
-		},
-	}
-	var counter int
+var messageStream = make(chan *proto.Message)
+
+func (s *MessageServer) OpenStream(ctx context.Context, req *connect.Request[emptypb.Empty], ss *connect.ServerStream[proto.Response]) error {
 	for {
 		select {
 		case <-ctx.Done():
+			log.Println("stream is finished")
 			return nil
-		default:
-			switch counter {
-			case 0:
-				counter++
-			case 1, 2, 3:
-				ss.Send(&proto.Response{
-					Messages: messages[counter-1 : counter],
-				})
-				counter++
-			}
+		case msg := <-messageStream:
+			ss.Send(&proto.Response{
+				Message: msg,
+			})
 		}
 	}
 }
 
-var IsDevelopment = true
+func (s *MessageServer) Post(ctx context.Context, req *connect.Request[proto.Message]) (*connect.Response[emptypb.Empty], error) {
+	messageStream <- req.Msg
+	return connect.NewResponse(&emptypb.Empty{}), nil
+}
 
 func main() {
-	var server MessageStreamServer
-	_, handler := protoconnect.NewMessageStreamHandler(&server)
-	http.ListenAndServe(
+	var server MessageServer
+	_, handler := protoconnect.NewMessageServiceHandler(&server)
+	err := http.ListenAndServe(
 		"localhost:6500",
 		h2c.NewHandler(handler, &http2.Server{}),
 	)
+	if err != nil {
+		log.Println(err)
+	}
 }
