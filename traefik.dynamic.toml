@@ -1,12 +1,18 @@
 [http.routers.to-rpc]
 service = "rpc"
 rule = "PathPrefix(`/rpc`)"
+middlewares = ["stripPrefixRpc"]
+
 [http.routers.to-rpc.tls]
 options = "default"
+
+[http.middlewares.stripPrefixRpc.stripPrefix]
+prefixes = ["/rpc"]
 
 [http.routers.to-front]
 service = "front"
 rule = "PathPrefix(`/`)"
+
 [http.routers.to-front.tls]
 options = "default"
 
