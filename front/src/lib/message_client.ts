@@ -1,5 +1,5 @@
 import { createConnectTransport, createPromiseClient, PromiseClient } from "@bufbuild/connect-web"
-import { MessageService }from "~/proto/message_connectweb"
+import { MessageService } from "~/proto/message_connectweb"
 import { Message, Response }from "~/proto/message_pb"
 import { Observable, from } from "rxjs"
 

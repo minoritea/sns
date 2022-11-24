@@ -2,4 +2,7 @@ package model
 
 import "github.com/oklog/ulid/v2"
 
-type ID = ulid.ULID
+type ID string
+
+func NewID() ID              { return ID(ulid.Make().String()) }
+func (id ID) String() string { return string(id) }

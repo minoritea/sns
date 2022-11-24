@@ -3,10 +3,12 @@ package servers
 import (
 	"net/http"
 
+	"github.com/bufbuild/connect-go"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 
 	"github.com/minoritea/sns/rpc/db"
+	"github.com/minoritea/sns/rpc/interceptors"
 	"github.com/minoritea/sns/rpc/model"
 	"github.com/minoritea/sns/rpc/proto/protoconnect"
 	"github.com/minoritea/sns/rpc/pubsub"
@@ -18,7 +20,7 @@ func New() (http.Handler, error) {
 		return nil, err
 	}
 
-	err = db.CreateTables(model.Post{})
+	err = db.CreateTables(model.Post{}, model.User{})
 	if err != nil {
 		return nil, err
 	}
@@ -26,8 +28,19 @@ func New() (http.Handler, error) {
 	pubsub := pubsub.New[model.Post]()
 
 	mux := http.NewServeMux()
-	mux.Handle(protoconnect.NewMessageServiceHandler(&MessageServer{db: db, pubsub: pubsub}))
-	mux.Handle(protoconnect.NewAuthenticationServiceHandler(&AuthenticationServer{db: db}))
+	mux.Handle(protoconnect.NewMessageServiceHandler(
+		&MessageServer{db: db, pubsub: pubsub},
+		connect.WithInterceptors(
+			interceptors.NewErrorLoggingInterceptor(),
+			interceptors.NewAuthenticationInterceptor(db),
+		),
+	))
+	mux.Handle(protoconnect.NewAuthenticationServiceHandler(
+		&AuthenticationServer{db: db},
+		connect.WithInterceptors(
+			interceptors.NewErrorLoggingInterceptor(),
+		),
+	))
 
 	return mux, nil
 }
