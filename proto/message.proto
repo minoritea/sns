@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
+package sns;
 
-package message;
+import "google/protobuf/empty.proto";
 
 option go_package = "github.com/minoritea/sns/rpc/proto";
 

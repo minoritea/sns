@@ -3,7 +3,7 @@ import { MessageService }from "~/proto/message_connectweb"
 import { Message, Response }from "~/proto/message_pb"
 import { Observable, from } from "rxjs"
 
-export class Client {
+export class MessageClient {
   client: PromiseClient<typeof MessageService>;
   constructor(serverUrl: string) {
     const transport = createConnectTransport({
@@ -21,5 +21,5 @@ export class Client {
   }
 }
 
-export default new Client("/rpc")
+export default new MessageClient("/rpc")
 export { Message, Response }

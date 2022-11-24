@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import client, { Message as MessageType } from "~/lib/client"
+import client, { Message as MessageType } from "~/lib/message_client"
 import Message from "~/components/message"
 import { scan } from "rxjs"
 

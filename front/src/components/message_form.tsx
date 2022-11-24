@@ -1,4 +1,4 @@
-import client, { Message } from "~/lib/client"
+import client, { Message } from "~/lib/message_client"
 import { useCallback, useRef, FormEvent } from "react"
 
 export default function MessageForm() {
