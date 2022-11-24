@@ -4,7 +4,7 @@ import "google/protobuf/empty.proto";
 
 package message;
 
-option go_package = "github.com/minoritea/sns/build/proto";
+option go_package = "github.com/minoritea/sns/rpc/proto";
 
 service MessageService {
   rpc OpenStream(google.protobuf.Empty) returns (stream Response);
