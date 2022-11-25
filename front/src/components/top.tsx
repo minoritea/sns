@@ -6,7 +6,7 @@ import sessionState from "~/lib/session_state"
 import { distinctUntilChanged } from "rxjs"
 
 export default function Top() {
-  const [isSignedIn, setSignedIn] = useState(false)
+  const [isSignedIn, setSignedIn] = useState<boolean | null>(null)
 
   useEffect(() => {
     const subscription = sessionState.pipe(distinctUntilChanged()).subscribe(setSignedIn)
@@ -14,7 +14,7 @@ export default function Top() {
   }, [])
 
   return (<>
-    { !isSignedIn ? <SignUpForm /> : <MessageForm /> }
+    { isSignedIn == null ? <div></div> : !isSignedIn ? <SignUpForm /> : <MessageForm /> }
     <MessageList />
   </>);
 }

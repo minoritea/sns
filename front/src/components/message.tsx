@@ -1,3 +1,4 @@
-export default function Message({ message }: { message: { body: string } }) {
-  return <div>{ message.body }</div>
+import type { Message as MessageType } from "~/lib/message_client"
+export default function Message({ message }: { message: MessageType }) {
+  return <div>{ message.userName }: { message.body }</div>
 }

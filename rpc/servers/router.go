@@ -20,12 +20,12 @@ func New() (http.Handler, error) {
 		return nil, err
 	}
 
-	err = db.CreateTables(model.Post{}, model.User{})
+	err = db.CreateTables(model.Message{}, model.User{})
 	if err != nil {
 		return nil, err
 	}
 
-	pubsub := pubsub.New[model.Post]()
+	pubsub := pubsub.New[model.UserMessage]()
 
 	mux := http.NewServeMux()
 	mux.Handle(protoconnect.NewMessageServiceHandler(
