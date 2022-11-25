@@ -9,7 +9,7 @@ import (
 type Engine = xorm.Engine
 
 func New(isDevelopment bool) (*Engine, error) {
-	engine, err := xorm.NewEngine("sqlite3", ":memory:")
+	engine, err := xorm.NewEngine("sqlite3", "sns.db")
 	if err != nil {
 		return nil, err
 	}

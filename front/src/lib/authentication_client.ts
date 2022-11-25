@@ -11,10 +11,6 @@ export class AuthenticationClient {
     this.client = createPromiseClient(AuthenticationService, transport)
   }
 
-  async isSignedIn(): Promise<void> {
-    await this.client.isSignedIn(null)
-  }
-
   async signUp(name: string, password: string): Promise<void> {
     await this.client.signUp(new SignUpRequest({name, password}))
   }

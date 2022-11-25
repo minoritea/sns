@@ -1,3 +1,4 @@
 /rpc/proto
 /bin
 /ssl
+/sns.db

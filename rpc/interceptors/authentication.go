@@ -6,6 +6,8 @@ import (
 	"net/http"
 
 	"github.com/bufbuild/connect-go"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/minoritea/sns/rpc/db"
 	"github.com/minoritea/sns/rpc/model"
@@ -22,7 +24,7 @@ func (a *authenticationInterceptor) WrapUnary(next connect.UnaryFunc) connect.Un
 	return connect.UnaryFunc(func(ctx context.Context, req connect.AnyRequest) (connect.AnyResponse, error) {
 		ctx, err := setUserFromCookie(ctx, a.db, req.Header())
 		if err != nil {
-			return nil, err
+			return nil, status.Errorf(codes.Unauthenticated, "Unauthenticated: %v", err)
 		}
 		return next(ctx, req)
 	})
@@ -36,7 +38,7 @@ func (a *authenticationInterceptor) WrapStreamingHandler(next connect.StreamingH
 	return connect.StreamingHandlerFunc(func(ctx context.Context, conn connect.StreamingHandlerConn) error {
 		ctx, err := setUserFromCookie(ctx, a.db, conn.RequestHeader())
 		if err != nil {
-			return err
+			return status.Errorf(codes.Unauthenticated, "Unauthenticated: %v", err)
 		}
 		return next(ctx, conn)
 	})
