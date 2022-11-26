@@ -1,6 +1,6 @@
 import { useCallback, useRef, FormEvent } from "react"
 import client from "~/lib/authentication_client"
-import sessionState from "~/lib/session_state"
+import { authentication } from "~/lib/session_state"
 
 export default function SignUpForm() {
   const nameRef = useRef<HTMLInputElement>(null)
@@ -17,7 +17,7 @@ export default function SignUpForm() {
       throw new Error("password is empty")
     }
 
-    client.signUp(name, password).then(() => sessionState.next(true)).catch((err) => { console.error(err); sessionState.next(false) })
+    authentication(client.signUp(name, password))
   }, [])
 
   return (

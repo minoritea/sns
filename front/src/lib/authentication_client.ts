@@ -14,6 +14,10 @@ export class AuthenticationClient {
   async signUp(name: string, password: string): Promise<void> {
     await this.client.signUp(new SignUpRequest({name, password}))
   }
+
+  async isSignedIn(): Promise<void> {
+    await this.client.isSignedIn(null)
+  }
 }
 
 export default new AuthenticationClient("/rpc")

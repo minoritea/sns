@@ -10,7 +10,6 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/minoritea/sns/rpc/db"
-	"github.com/minoritea/sns/rpc/model"
 	"github.com/minoritea/sns/rpc/util"
 )
 
@@ -44,26 +43,17 @@ func (a *authenticationInterceptor) WrapStreamingHandler(next connect.StreamingH
 	})
 }
 
-func setUserFromCookie(ctx context.Context, db *db.Engine, header http.Header) (context.Context, error) {
-	hr := http.Request{Header: header}
-	var id string
-	for _, cookie := range hr.Cookies() {
-		if cookie.Name == "id" {
-			id = cookie.Value
-			break
-		}
+func setUserFromCookie(ctx context.Context, engine *db.Engine, header http.Header) (context.Context, error) {
+	id := util.GetSessionID(header)
+	if id == "" {
+		return nil, fmt.Errorf("session id is not found")
 	}
 
-	var user model.User
-	has, err := db.ID(id).Get(&user)
+	user, err := db.GetUser(engine, id)
 	if err != nil {
 		return nil, err
 	}
 
-	if !has {
-		return nil, fmt.Errorf("user is not found")
-	}
-
-	ctx = util.WithSessionUser(ctx, user)
+	ctx = util.WithSessionUser(ctx, *user)
 	return ctx, nil
 }

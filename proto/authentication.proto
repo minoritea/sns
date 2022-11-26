@@ -8,6 +8,7 @@ option go_package = "github.com/minoritea/sns/rpc/proto";
 
 service AuthenticationService {
   rpc SignUp(SignUpRequest) returns (google.protobuf.Empty);
+  rpc IsSignedIn(google.protobuf.Empty) returns (google.protobuf.Empty);
 }
 
 message SignUpRequest {

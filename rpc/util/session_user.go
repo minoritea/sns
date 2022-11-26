@@ -2,6 +2,7 @@ package util
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/minoritea/sns/rpc/model"
 )
@@ -18,4 +19,15 @@ func GetSessionUser(ctx context.Context) *model.User {
 
 func WithSessionUser(ctx context.Context, user model.User) context.Context {
 	return context.WithValue(ctx, userKey, user)
+}
+
+func GetSessionID(header http.Header) string {
+	hr := http.Request{Header: header}
+	for _, cookie := range hr.Cookies() {
+		if cookie.Name == "id" {
+			return cookie.Value
+		}
+	}
+
+	return ""
 }
