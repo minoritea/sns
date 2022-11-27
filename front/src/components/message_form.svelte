@@ -6,6 +6,7 @@
 	function submit() {
     event.preventDefault()
     client.post(new Message({ body }))
+		body = ""
 	}
 
 	$: submitDisabled = body === ""
