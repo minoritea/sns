@@ -15,7 +15,7 @@
 
 {#if isSignedIn}
 	<MessageForm />
+	<MessageList />
 {:else}
 	<SignUpForm />
 {/if}
-<MessageList />
