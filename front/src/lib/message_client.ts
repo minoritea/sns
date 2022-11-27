@@ -1,7 +1,6 @@
 import { createConnectTransport, createPromiseClient, PromiseClient } from "@bufbuild/connect-web"
 import { MessageService } from "~/proto/message_connectweb"
 import { Message, Response }from "~/proto/message_pb"
-import { Observable, from } from "rxjs"
 
 export class MessageClient {
   client: PromiseClient<typeof MessageService>;
@@ -12,8 +11,8 @@ export class MessageClient {
     this.client = createPromiseClient(MessageService, transport)
   }
 
-  openStream(): Observable<Response> {
-    return from(this.client.openStream(null))
+  openStream(): AsyncIterable<Response> {
+    return this.client.openStream(null)
   }
 
   async post(message: Message): Promise<void> {
