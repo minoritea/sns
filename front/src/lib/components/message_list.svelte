@@ -1,33 +1,36 @@
 <script lang="ts">
-	import client, { Message } from "~/lib/message_client.ts"
-	import { onMount } from "svelte"
-	import { writable } from "svelte/store"
+	import { browser } from '$app/environment';
+	import client, { Message } from '$lib/rpc/message_client.ts';
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
-	let messages: Message[] = []
+	let messages: Message[] = [];
 
-	onMount(() => {
-		(async function load(){
+	if (browser) {
+		async function load() {
 			for await (const { message } of client.openStream()) {
-				messages = [message].concat(messages)
+				messages = [message].concat(messages);
 			}
-		})().catch(console.error)
-	})
+		}
+
+		load().catch(console.error);
+	}
 </script>
 
 <ul>
-{ #each messages as message }
-	<li class="message">
+	{#each messages as message}
+		<li class="message">
 			<img src="/person.svg" />
 			<div class="box">
 				<div class="userName">
-					@{ message.userName }
+					@{message.userName}
 				</div>
 				<div class="body">
-					{ message.body }
+					{message.body}
 				</div>
 			</div>
-	</li>
-{ /each }
+		</li>
+	{/each}
 </ul>
 
 <style>
