@@ -9,7 +9,6 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/minoritea/sns/rpc/db"
-	"github.com/minoritea/sns/rpc/model"
 	"github.com/minoritea/sns/rpc/proto"
 	"github.com/minoritea/sns/rpc/util"
 )
@@ -19,8 +18,7 @@ type AuthenticationServer struct {
 }
 
 func (a *AuthenticationServer) SignUp(ctx context.Context, req *connect.Request[proto.SignUpRequest]) (*connect.Response[emptypb.Empty], error) {
-	user := model.User{ID: model.NewID(), Name: req.Msg.Name, Password: req.Msg.Password}
-	_, err := a.db.Insert(&user)
+	user, err := db.CreateUser(a.db, req.Msg)
 	if err != nil {
 		return nil, err
 	}
