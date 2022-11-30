@@ -1,15 +1,15 @@
 <script lang="ts">
-	import client, { Message } from '$lib/rpc/message_client';
+	import client, { Message } from "~/lib/message_client"
 
-	let body = '';
+	let body = ""
 
 	function submit() {
-		event.preventDefault();
-		client.post(new Message({ body }));
-		body = '';
+    event.preventDefault()
+    client.post(new Message({ body }))
+		body = ""
 	}
 
-	$: submitDisabled = body === '';
+	$: submitDisabled = body === ""
 </script>
 
 <form on:submit={submit}>
