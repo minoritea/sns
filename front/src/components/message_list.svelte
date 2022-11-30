@@ -1,7 +1,7 @@
 <script lang="ts">
-	import client, { Message } from "~/lib/message_client.ts"
+	import client, { Message } from "~/clients/message_client.ts"
 	import { onMount } from "svelte"
-	import { writable } from "svelte/store"
+	import { writable } from "svelte/stores"
 
 	let messages: Message[] = []
 

@@ -1,4 +1,5 @@
-import { createConnectTransport, createPromiseClient, PromiseClient } from "@bufbuild/connect-web"
+import { createConnectTransport, createPromiseClient } from "@bufbuild/connect-web"
+import type { PromiseClient } from "@bufbuild/connect-web"
 import { AuthenticationService } from "~/proto/authentication_connectweb"
 import { SignUpRequest } from "~/proto/authentication_pb"
 

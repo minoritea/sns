@@ -1,6 +1,6 @@
-<script>
-	import { authentication } from "~/store/session"
-	import client from "~/lib/authentication_client"
+<script lang="ts">
+	import { authentication } from "~/stores/session"
+	import client from "~/clients/authentication_client"
 
 	let name = ""
 	let password = ""
