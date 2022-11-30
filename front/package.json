@@ -1,37 +1,20 @@
 {
-	"name": "sns",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write .",
-		"proto-ts": "env PATH=\"$PATH:../bin\" buf generate ../proto"
-	},
-	"devDependencies": {
-		"@bufbuild/connect-web": "^0.3.2",
-		"@bufbuild/protobuf": "^0.3.0",
-		"@bufbuild/protoc-gen-connect-web": "^0.3.2",
-		"@bufbuild/protoc-gen-es": "^0.3.0",
-		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/kit": "next",
-		"@typescript-eslint/eslint-plugin": "^5.27.0",
-		"@typescript-eslint/parser": "^5.27.0",
-		"eslint": "^8.16.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-svelte3": "^4.0.0",
-		"prettier": "^2.6.2",
-		"prettier-plugin-svelte": "^2.7.0",
-		"svelte": "^3.44.0",
-		"svelte-check": "^2.7.1",
-		"svelte-preprocess": "^4.10.6",
-		"tslib": "^2.3.1",
-		"typescript": "^4.7.4",
-		"vite": "^3.1.0"
-	},
-	"type": "module"
+  "name": "sns",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "proto-ts": "env PATH=\"$PATH:../bin\" buf generate ../proto"
+  },
+  "dependencies": {
+    "astro": "^1.6.8"
+  },
+  "devDependencies": {
+    "@astrojs/svelte": "^1.0.2",
+    "@bufbuild/connect-web": "^0.3.1",
+    "@bufbuild/protobuf": "^0.2.1",
+    "@bufbuild/protoc-gen-connect-web": "^0.3.1",
+    "@bufbuild/protoc-gen-es": "^0.2.1",
+    "@types/node": "^18.11.9",
+    "svelte": "^3.53.1"
+  }
 }
