@@ -12,7 +12,7 @@ export class AuthenticationClient {
     this.client = createPromiseClient(AuthenticationService, transport)
   }
 
-  async signUp(email: string, name: string, password: string): Promise<void> {
+  async signUp(name: string, email: string, password: string): Promise<void> {
     await this.client.signUp(new SignUpRequest({email, name, password}))
   }
 

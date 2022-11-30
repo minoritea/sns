@@ -3,20 +3,23 @@
 	import client from "~/clients/authentication_client"
 
 	let name = ""
+	let email = ""
 	let password = ""
 	
-	function signUp() {
+	function signUp(event: SubmitEvent) {
     event.preventDefault()
-		authentication(client.signUp(name, password))
+		authentication(client.signUp(name, email, password))
 	}
 
 	$: submitDisabled = name === "" || password === ""
 </script>
 
 <form on:submit={signUp}>
-	<label htmlFor="name">Name</label>
+	<label for="name">Name</label>
 	<input name="name" type="text" bind:value={name} />
-	<label htmlFor="password">Password</label>
+	<label for="email">Email</label>
+	<input name="email" type="email" bind:value={email} />
+	<label for="password">Password</label>
 	<input name="password" type="password" bind:value={password} />
 	<input type="submit" disabled={submitDisabled} value="Sign up" />
 </form>
