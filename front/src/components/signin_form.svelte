@@ -9,7 +9,7 @@
     event.preventDefault()
 		authentication(client.signIn({name, password})).then(() => {
 			window.location.href = "/"
-		})
+		}).catch(console.error)
 	}
 
 	$: submitDisabled = name === "" || password === ""

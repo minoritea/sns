@@ -7,7 +7,7 @@
 	import session, { authentication } from "~/stores/session"
 
 	onMount(() => {
-		authentication(client.isSignedIn({}))
+		authentication(client.isSignedIn({})).catch(console.error)
 	})
 </script>
 

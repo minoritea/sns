@@ -8,7 +8,6 @@ export async function authentication(promise: Promise<any>) {
   return promise.then(
     () => SessionStore.set("authenticated"),
     err => {
-      console.error(err)
       SessionStore.set("unauthenticated")
       throw err;
     },
