@@ -4,9 +4,13 @@ export type Status = "loading" | "authenticated" | "unauthenticated"
 const SessionStore = writable<Status>("loading")
 export default SessionStore
 
-export function authentication(promise: Promise<any>) {
-  promise.then(() => SessionStore.set("authenticated"), err => {
-    console.error(err)
-    SessionStore.set("unauthenticated")
-  })
+export async function authentication(promise: Promise<any>) {
+  return promise.then(
+    () => SessionStore.set("authenticated"),
+    err => {
+      console.error(err)
+      SessionStore.set("unauthenticated")
+      throw err;
+    },
+  )
 }
