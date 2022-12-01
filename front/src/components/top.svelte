@@ -13,9 +13,11 @@
 	$: isSignedIn = $session === "authenticated"
 </script>
 
-{#if isSignedIn}
+{#if $session === "authenticated"}
 	<MessageForm />
 	<MessageList />
-{:else}
+{:else if $session === "unauthenticated"}
 	<SignUpForm />
+{:else}
+	<div class="text-white">loading...</div>
 {/if}

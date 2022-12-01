@@ -20,7 +20,7 @@ func New() (http.Handler, error) {
 		return nil, err
 	}
 
-	err = db.CreateTables(model.Message{}, model.User{})
+	err = db.Sync2(model.Message{}, model.User{})
 	if err != nil {
 		return nil, err
 	}
