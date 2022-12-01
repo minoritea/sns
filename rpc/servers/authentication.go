@@ -35,6 +35,24 @@ func (a *AuthenticationServer) SignUp(ctx context.Context, req *connect.Request[
 	return res, nil
 }
 
+func (a *AuthenticationServer) SignIn(ctx context.Context, req *connect.Request[proto.SignInRequest]) (*connect.Response[emptypb.Empty], error) {
+	user, err := db.FindUserByAuthentication(a.db, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+	res := connect.NewResponse(&emptypb.Empty{})
+	cookie := http.Cookie{
+		Name:     "id",
+		Value:    user.ID.String(),
+		Path:     "/rpc",
+		SameSite: http.SameSiteStrictMode,
+		Secure:   true,
+		HttpOnly: true,
+	}
+	res.Header().Set("set-cookie", cookie.String())
+	return res, nil
+}
+
 func (a *AuthenticationServer) IsSignedIn(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[emptypb.Empty], error) {
 	id := util.GetSessionID(req.Header())
 	if id == "" {

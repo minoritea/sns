@@ -26,3 +26,14 @@ func CreateUser(db *Engine, u UserParameter) (*model.User, error) {
 	_, err := db.Insert(&user)
 	return &user, err
 }
+
+type AuthenticationParameter interface {
+	GetName() string
+	GetPassword() string
+}
+
+func FindUserByAuthentication(db *Engine, a AuthenticationParameter) (*model.User, error) {
+	var user model.User
+	err := MustOne(db.Where("name = ? and password = ?", a.GetName(), a.GetPassword()).Get(&user))
+	return &user, err
+}
