@@ -1,11 +1,11 @@
 <script lang="ts">
-	import client, { Message } from "~/clients/message_client"
+	import client from "~/clients/message_client"
 
 	let body = ""
 
 	function submit() {
     event.preventDefault()
-    client.post(new Message({ body }))
+    client.post({ body })
 		body = ""
 	}
 

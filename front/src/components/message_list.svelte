@@ -1,12 +1,11 @@
 <script lang="ts">
 	import client, { Message } from "~/clients/message_client"
 	import session from "~/stores/session"
-	import { onMount } from "svelte"
 
 	let messages: Message[] = []
 
 	async function load(){
-		for await (const { message } of client.openStream()) {
+		for await (const { message } of client.openStream({})) {
 			messages = [message].concat(messages)
 		}
 	}
