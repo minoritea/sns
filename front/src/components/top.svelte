@@ -11,11 +11,8 @@
 	})
 </script>
 
-{#if $session === "authenticated"}
-	<MessageForm />
+{#if $session !== "unauthenticated"}
 	<MessageList />
-{:else if $session === "unauthenticated"}
-	<AuthenticationForm />
 {:else}
-	<div class="text-white">loading...</div>
+	<AuthenticationForm />
 {/if}
