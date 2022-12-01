@@ -10,7 +10,7 @@
     event.preventDefault()
 		authentication(client.signUp({name, email, password})).then(() => {
 			window.location.href = "/"
-		})
+		}).catch(console.error)
 	}
 
 	$: submitDisabled = email === "" || name === "" || password === ""
