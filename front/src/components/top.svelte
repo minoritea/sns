@@ -3,6 +3,7 @@
 	import MessageList from "~/components/message_list.svelte"
 	import MessageForm from "~/components/message_form.svelte"
 	import AuthenticationForm from "~/components/authentication_form.svelte"
+	import Sidebar from "~/components/sidebar.svelte"
 	import client from "~/clients/authentication_client"
 	import session, { authentication } from "~/stores/session"
 
@@ -12,7 +13,15 @@
 </script>
 
 {#if $session !== "unauthenticated"}
-	<MessageList />
+	<div class="flex justify-center mt-12 gap-4">
+		<div>
+			<Sidebar />
+		</div>
+		<div>
+			<MessageList />
+		</div>
+		<div></div>
+	</div>
 {:else}
 	<AuthenticationForm />
 {/if}

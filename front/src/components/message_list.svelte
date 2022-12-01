@@ -31,7 +31,7 @@
 
 <style lang="postcss">
 	ul {
-		@apply max-w-3xl mt-12 mx-auto bg-gray-300 rounded-lg flex flex-col gap-4 divide-y-2 border-gray-200;
+		@apply mx-auto md:w-[600px] lg:w-[800px] bg-gray-300 rounded-lg flex flex-col gap-4 divide-y-2 border-gray-200;
 		min-height: 100svh;
 	}
 

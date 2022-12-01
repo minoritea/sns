@@ -17,7 +17,7 @@
 </script>
 
 <div class="authenticatoin-box">
-	<form on:submit={signUp} class="">
+	<form on:submit={signUp}>
 		<label for="name">Name</label>
 		<div class="name-box">
 			<div class="name-box-inline">
