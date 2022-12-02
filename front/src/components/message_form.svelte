@@ -16,8 +16,16 @@
 </script>
 
 {#if visible}
-	<div class="fixed w-full h-full bg-gray-500 inset-0 bg-opacity-50 backdrop-blur-sm flex justify-center" on:click={() => { visible = false }}>
-		<div class="mt-12" on:click|stopPropagation={() => {}}>
+	<div
+	  class="fixed w-full h-full bg-gray-500 inset-0 bg-opacity-50 backdrop-blur-sm flex justify-center"
+		on:click={() => { visible = false }}
+		on:keypress={() => { visible = false }}
+	>
+		<div
+		  class="mt-12"
+			on:click|stopPropagation={() => {}}
+			on:keypress|stopPropagation={() => {}}
+		>
 			<form on:submit={submit}>
 				<textarea maxlength=1000 minlength=1 rows=4 bind:value={body} />
 				<input type="submit" disabled={submitDisabled} value="Post" />
