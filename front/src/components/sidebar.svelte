@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MessageForm from "~/components/message_form.svelte"
+	import PostForm from "~/components/post_form.svelte"
 
 	let visible = false
 </script>
@@ -8,7 +8,7 @@
 	<button class="mt-4 w-52 py-2 rounded-lg bg-gray-400 " on:click={() => { visible = true }}>Post</button>
 </aside>
 
-<MessageForm bind:visible />
+<PostForm bind:visible />
 
 <style>
 </style>

@@ -6,16 +6,16 @@ import "google/protobuf/empty.proto";
 
 option go_package = "github.com/minoritea/sns/rpc/proto";
 
-service MessageService {
+service PostService {
   rpc OpenStream(google.protobuf.Empty) returns (stream Response);
-  rpc Post(Message) returns (google.protobuf.Empty);
+  rpc Publish(Post) returns (google.protobuf.Empty);
 }
 
 message Response {
-  Message message = 1;
+  Post post = 1;
 }
 
-message Message {
+message Post {
   string userName =1;
   string body = 2;
 }

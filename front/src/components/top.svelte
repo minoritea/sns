@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte"
-	import MessageList from "~/components/message_list.svelte"
-	import MessageForm from "~/components/message_form.svelte"
+	import TimeLine from "~/components/timeline.svelte"
 	import AuthenticationForm from "~/components/authentication_form.svelte"
 	import Sidebar from "~/components/sidebar.svelte"
 	import client from "~/clients/authentication_client"
@@ -18,7 +17,7 @@
 			<Sidebar />
 		</div>
 		<div>
-			<MessageList />
+			<TimeLine />
 		</div>
 		<div></div>
 	</div>

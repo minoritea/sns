@@ -1,5 +1,5 @@
 <script lang="ts">
-	import client from "~/clients/message_client"
+	import client from "~/clients/post_client"
 	
 	export let visible = false
 
@@ -7,7 +7,7 @@
 
 	function submit() {
     event.preventDefault()
-    client.post({ body })
+    client.publish({ body })
 		body = ""
 		visible = false
 	}

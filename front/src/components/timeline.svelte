@@ -1,12 +1,12 @@
 <script lang="ts">
-	import client, { Message } from "~/clients/message_client"
+	import client, { Message } from "~/clients/post_client"
 	import session from "~/stores/session"
 
-	let messages: Message[] = []
+	let posts: Message[] = []
 
 	async function load(){
-		for await (const { message } of client.openStream({})) {
-			messages = [message].concat(messages)
+		for await (const { post } of client.openStream({})) {
+			posts = [post].concat(posts)
 		}
 	}
 
@@ -18,12 +18,12 @@
 </script>
 
 <ul>
-{ #each messages as message }
+{ #each posts as post }
 	<li>
 		<img src="/person.svg" alt="portlait" />
 		<div>
-			<div class="userName">@{ message.userName }</div>
-			<pre class="body">{ message.body }</pre>
+			<div class="userName">@{ post.userName }</div>
+			<pre class="body">{ post.body }</pre>
 		</div>
 	</li>
 { /each }
