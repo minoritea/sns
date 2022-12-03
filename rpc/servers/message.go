@@ -16,7 +16,7 @@ import (
 
 type MessageServer struct {
 	db     *db.Engine
-	pubsub *pubsub.PubSub[model.UserMessage]
+	pubsub *pubsub.PubSub[model.UserMessage, *model.User]
 }
 
 func convertUserMessageToResponse(userMessage model.UserMessage) *proto.Response {
@@ -29,7 +29,11 @@ func convertUserMessageToResponse(userMessage model.UserMessage) *proto.Response
 }
 
 func (s *MessageServer) OpenStream(ctx context.Context, req *connect.Request[emptypb.Empty], ss *connect.ServerStream[proto.Response]) error {
-	ch, unsubscribe := s.pubsub.Subscribe()
+	user := util.GetSessionUser(ctx)
+	if user == nil {
+		return fmt.Errorf("session user is not found")
+	}
+	ch, unsubscribe := s.pubsub.Subscribe(user)
 	defer unsubscribe()
 
 	var userMessages []model.UserMessage

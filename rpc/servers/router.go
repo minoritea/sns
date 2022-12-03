@@ -25,7 +25,7 @@ func New() (http.Handler, error) {
 		return nil, err
 	}
 
-	pubsub := pubsub.New[model.UserMessage]()
+	pubsub := pubsub.New[model.UserMessage, *model.User]()
 
 	mux := http.NewServeMux()
 	mux.Handle(protoconnect.NewMessageServiceHandler(
