@@ -6,7 +6,7 @@ import (
 	"github.com/minoritea/sns/rpc/model"
 )
 
-func GetUser[IDType model.ID | string](db *Engine, id IDType) (*model.User, error) {
+func GetUser[ID model.UserID | string](db *Engine, id ID) (*model.User, error) {
 	var user model.User
 	err := MustOne(db.ID(id).Get(&user))
 	if err != nil {
@@ -22,7 +22,7 @@ type UserParameter interface {
 }
 
 func CreateUser(db *Engine, u UserParameter) (*model.User, error) {
-	user := model.User{ID: model.NewID(), Name: u.GetName(), Email: u.GetEmail(), Password: u.GetPassword()}
+	user := model.User{ID: model.NewUserID(), Name: u.GetName(), Email: u.GetEmail(), Password: u.GetPassword()}
 	_, err := db.Insert(&user)
 	return &user, err
 }

@@ -36,8 +36,7 @@ func (s *PostServer) OpenStream(ctx context.Context, req *connect.Request[emptyp
 	ch, unsubscribe := s.pubsub.Subscribe(user)
 	defer unsubscribe()
 
-	var userPosts []model.UserPost
-	err := s.db.Table("user").Join("inner", "post", "user.id = post.user_id").Limit(10).Desc("post.id").Find(&userPosts)
+	userPosts, err := db.FindUserPosts(s.db, 10)
 	if err != nil {
 		return err
 	}
@@ -70,7 +69,7 @@ func (s *PostServer) Publish(ctx context.Context, req *connect.Request[proto.Pos
 	}
 
 	post := model.Post{
-		ID:     model.NewID(),
+		ID:     model.NewPostID(),
 		UserID: user.ID,
 		Body:   req.Msg.Body,
 	}
