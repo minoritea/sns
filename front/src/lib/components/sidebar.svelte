@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PostForm from "~/components/post_form.svelte"
+	import PostForm from "$lib/components/post_form.svelte"
 
 	let visible = false
 </script>

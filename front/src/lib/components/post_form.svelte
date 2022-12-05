@@ -1,5 +1,5 @@
 <script lang="ts">
-	import client from "~/clients/post_client"
+	import client from "$lib/clients/post_client"
 	
 	export let visible = false
 
@@ -17,7 +17,7 @@
 
 {#if visible}
 	<div
-	  class="fixed w-full h-full bg-gray-500 inset-0 bg-opacity-50 backdrop-blur-sm flex justify-center"
+	  class="post-form fixed w-full h-full bg-gray-500 inset-0 bg-opacity-50 backdrop-blur-sm flex justify-center"
 		on:click={() => { visible = false }}
 		on:keypress={() => { visible = false }}
 	>
@@ -35,15 +35,15 @@
 {/if}
 
 <style lang="postcss">
-form {
+.post-form form {
 	@apply bg-gray-300 p-8 flex flex-col gap-4 justify-center rounded-lg w-96;
 }
 
-textarea {
+.post-form textarea {
 	@apply rounded-lg bg-gray-200;
 }
 
-input[type=submit] {
+.post-form input[type=submit] {
 	@apply rounded-lg w-1/3 bg-gray-400 py-1 mx-auto;
 }
 </style>

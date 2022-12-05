@@ -1,8 +1,9 @@
 <script lang="ts">
-	import client, { Message } from "~/clients/post_client"
-	import session from "~/stores/session"
+	import client from "$lib/clients/post_client"
+	import type { Post } from "$lib/clients/post_client"
+	import session from "$lib/stores/session"
 
-	let posts: Message[] = []
+	let posts: Post[] = []
 
 	async function load(){
 		for await (const { post } of client.openStream({})) {
@@ -39,7 +40,7 @@
 		@apply flex py-8 px-4;
 	}
 
-	img {
+	li > img {
 		@apply bg-white rounded-full;
 	}
 
