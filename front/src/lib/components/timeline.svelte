@@ -1,35 +1,35 @@
 <script lang="ts">
-	import client from "$lib/clients/post_client"
-	import type { Post } from "$lib/clients/post_client"
-	import session from "$lib/stores/session"
+	import client from '$lib/clients/post_client';
+	import type { Post } from '$lib/clients/post_client';
+	import session from '$lib/stores/session';
 
-	let posts: Post[] = []
+	let posts: Post[] = [];
 
-	async function load(){
+	async function load() {
 		for await (const { post } of client.openStream({})) {
 			if (post != null) {
-				posts = [post].concat(posts)
+				posts = [post].concat(posts);
 			}
 		}
 	}
 
 	$: {
-	  if ($session === "authenticated") {
-			load().then(console.error)
+		if ($session === 'authenticated') {
+			load().then(console.error);
 		}
 	}
 </script>
 
 <ul>
-{ #each posts as post }
-	<li>
-		<img src="/person.svg" alt="portlait" />
-		<div>
-			<div class="userName">@{ post.userName }</div>
-			<pre class="body">{ post.body }</pre>
-		</div>
-	</li>
-{ /each }
+	{#each posts as post}
+		<li>
+			<img src="/person.svg" alt="portlait" />
+			<div>
+				<div class="userName">@{post.userName}</div>
+				<pre class="body">{post.body}</pre>
+			</div>
+		</li>
+	{/each}
 </ul>
 
 <style lang="postcss">

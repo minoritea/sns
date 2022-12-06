@@ -1,23 +1,25 @@
 <script lang="ts" context="module">
-  export const prerender = true
+	export const prerender = true;
 </script>
 
 <script lang="ts">
-	import { authentication } from "$lib/stores/session"
-	import client from "$lib/clients/authentication_client"
+	import { authentication } from '$lib/stores/session';
+	import client from '$lib/clients/authentication_client';
 
-	let name = ""
-	let email = ""
-	let password = ""
-	
+	let name = '';
+	let email = '';
+	let password = '';
+
 	function signUp(event: SubmitEvent) {
-    event.preventDefault()
-		authentication(client.signUp({name, email, password})).then(() => {
-			window.location.href = "/"
-		}).catch(console.error)
+		event.preventDefault();
+		authentication(client.signUp({ name, email, password }))
+			.then(() => {
+				window.location.href = '/';
+			})
+			.catch(console.error);
 	}
 
-	$: submitDisabled = email === "" || name === "" || password === ""
+	$: submitDisabled = email === '' || name === '' || password === '';
 </script>
 
 <div class="authenticatoin-box">
@@ -64,7 +66,7 @@
 	.name-box-inline > input {
 		@apply rounded-r w-full bg-gray-300 focus:ring-blue-500;
 	}
-	.authenticatoin-box input[type=submit] {
+	.authenticatoin-box input[type='submit'] {
 		@apply rounded-lg w-1/3 text-center mt-2 mb-4 py-1 bg-cyan-200 text-gray-800 font-bold;
 	}
 </style>
