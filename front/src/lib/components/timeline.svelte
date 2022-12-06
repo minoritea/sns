@@ -50,6 +50,10 @@
 		@apply flex flex-col ml-4;
 	}
 
+	li pre {
+		@apply font-sans;
+	}
+
 	.userName {
 		@apply font-bold text-lg;
 	}
