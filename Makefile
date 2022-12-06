@@ -1,11 +1,10 @@
 SHELL := /usr/bin/env bash
-.PHONY: proto-go proto-ts build-front init dev-server ssl-certs
+.PHONY: proto-go proto-ts init dev-server ssl-certs
 
 init:
 	$(MAKE) ssl-certs
 	$(MAKE) proto-go
 	$(MAKE) proto-ts
-	$(MAKE) build-front
 
 ./bin:
 	mkdir bin
@@ -31,8 +30,11 @@ init:
 ./front/node_modules:
 	cd front; npm install
 
-./front/src/proto: ./front/node_modules
+./front/src/lib/proto: ./front/node_modules
 	cd front; npm run proto-ts
+
+./front/.svelte-kit: ./front/node_modules
+	cd front; npx svelte-kit sync
 
 ./ssl:
 	mkdir -p ssl
@@ -55,10 +57,10 @@ proto-go:
 	$(MAKE) ./rpc/proto
 
 proto-ts: 
-	rm -rf ./front/src/proto
-	$(MAKE) ./front/src/proto
+	rm -rf ./front/src/lib/proto
+	$(MAKE) ./front/src/lib/proto
 
-dev-server: ./bin/traefik ./bin/arelo ./rpc/proto ./front/src/proto ./ssl/localhost.key ./ssl/localhost.crt ./front/node_modules
+dev-server: ./bin/traefik ./bin/arelo ./rpc/proto ./front/src/lib/proto ./ssl/localhost.key ./ssl/localhost.crt ./front/node_modules ./front/.svelte-kit
 	cd front; npm run dev -- --port 6600 &
 	bin/arelo -p 'rpc/**/*.go' -- go run ./rpc &
 	bin/traefik
