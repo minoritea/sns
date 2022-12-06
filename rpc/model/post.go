@@ -2,7 +2,7 @@ package model
 
 type PostID string
 
-func (u PostID) String() string { return string(u) }
+func (p PostID) String() string { return string(p) }
 func NewPostID() PostID         { return NewID[PostID]() }
 
 type Post struct {

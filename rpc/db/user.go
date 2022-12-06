@@ -1,19 +1,9 @@
 package db
 
 import (
-	"fmt"
-
 	"github.com/minoritea/sns/rpc/model"
+	"golang.org/x/crypto/bcrypt"
 )
-
-func GetUser[ID model.UserID | string](db *Engine, id ID) (*model.User, error) {
-	var user model.User
-	err := MustOne(db.ID(id).Get(&user))
-	if err != nil {
-		return nil, fmt.Errorf("GetUser failed(id: %s): %w", id, err)
-	}
-	return &user, nil
-}
 
 type UserParameter interface {
 	GetName() string
@@ -21,19 +11,30 @@ type UserParameter interface {
 	GetPassword() string
 }
 
-func CreateUser(db *Engine, u UserParameter) (*model.User, error) {
-	user := model.User{ID: model.NewUserID(), Name: u.GetName(), Email: u.GetEmail(), Password: u.GetPassword()}
-	_, err := db.Insert(&user)
+func CreateUser(db DB, u UserParameter) (*model.User, error) {
+	pw, err := bcrypt.GenerateFromPassword([]byte(u.GetPassword()), model.PasswordCost)
+	if err != nil {
+		return nil, err
+	}
+	user := model.User{ID: model.NewUserID(), Name: u.GetName(), Email: u.GetEmail(), Password: string(pw)}
+	_, err = db.Insert(&user)
 	return &user, err
 }
 
-type AuthenticationParameter interface {
-	GetName() string
-	GetPassword() string
+func FindUserBySessionID(db DB, sessionID model.SessionID) (*model.User, error) {
+	var userSession model.UserSession
+	err := MustOne(
+		db.
+			Table("user").
+			Join("inner", "session", "user.id = session.user_id").
+			Where("session.id = ?", sessionID).
+			Get(&userSession),
+	)
+	return userSession.User, err
 }
 
-func FindUserByAuthentication(db *Engine, a AuthenticationParameter) (*model.User, error) {
+func FindUserByName(db DB, name string) (*model.User, error) {
 	var user model.User
-	err := MustOne(db.Where("name = ? and password = ?", a.GetName(), a.GetPassword()).Get(&user))
+	err := MustOne(db.Where("name = ?", name).Get(&user))
 	return &user, err
 }

@@ -7,7 +7,9 @@
 
 	async function load(){
 		for await (const { post } of client.openStream({})) {
-			posts = [post].concat(posts)
+			if (post != null) {
+				posts = [post].concat(posts)
+			}
 		}
 	}
 

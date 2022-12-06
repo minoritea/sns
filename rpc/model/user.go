@@ -11,3 +11,5 @@ type User struct {
 	Email    string `xorm:"unique not null"`
 	Password string `xorm:"not null"`
 }
+
+const PasswordCost = 10
