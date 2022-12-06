@@ -1,5 +1,5 @@
 <script lang="ts">
-	import client, { Message } from "~/lib/message_client"
+	import client, { Message } from "~/clients/message_client"
 
 	let body = ""
 

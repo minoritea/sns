@@ -3,21 +3,20 @@
 	import client from "~/clients/authentication_client"
 
 	let name = ""
-	let email = ""
 	let password = ""
 	
-	function signUp(event: SubmitEvent) {
+	function signIn(event: SubmitEvent) {
     event.preventDefault()
-		authentication(client.signUp({name, email, password})).then(() => {
+		authentication(client.signIn({name, password})).then(() => {
 			window.location.href = "/"
 		}).catch(console.error)
 	}
 
-	$: submitDisabled = email === "" || name === "" || password === ""
+	$: submitDisabled = name === "" || password === ""
 </script>
 
 <div class="authenticatoin-box">
-	<form on:submit={signUp} class="">
+	<form on:submit={signIn} class="">
 		<label for="name">Name</label>
 		<div class="name-box">
 			<div class="name-box-inline">
@@ -25,16 +24,14 @@
 				<input name="name" type="text" bind:value={name} />
 			</div>
 		</div>
-		<label for="email">Email</label>
-		<input name="email" type="email" bind:value={email} />
 		<label for="password">Password</label>
 		<input name="password" type="password" bind:value={password} />
 		<div class="w-full flex justify-center">
-			<input type="submit" disabled={submitDisabled} value="Sign up" />
+			<input type="submit" disabled={submitDisabled} value="Sign in" />
 		</div>
 	</form>
 	<div class="flex flex-row-reverse">
-		<a href="/signin" class="underline">Sign in</a>
+		<a href="/signup" class="underline">Sign up</a>
 	</div>
 </div>
 
@@ -61,6 +58,9 @@
 		@apply rounded-r w-full bg-gray-300 focus:ring-blue-500;
 	}
 	.authenticatoin-box input[type=submit] {
-		@apply rounded-lg w-1/3 text-center mt-2 mb-4 py-1 bg-cyan-200 text-gray-800 font-bold;
+		@apply rounded-lg w-1/3 text-center mt-4 py-1 bg-cyan-200 text-gray-800 font-bold;
+	}
+	.authenticatoin-box a {
+
 	}
 </style>

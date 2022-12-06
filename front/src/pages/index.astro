@@ -1,11 +1,5 @@
 ---
+import Layout from "~/layouts/default.astro"
 import Top from "~/components/top.svelte"
 ---
-<html>
-<head>
-  <meta charset="utf8" />
-</head>
-<body>
-  <Top client:load />
-</body>
-</html>
+<Layout><Top client:load /></Layout>

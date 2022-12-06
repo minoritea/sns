@@ -1,21 +1,21 @@
-<script>
+<script lang="ts">
 	import { onMount } from "svelte"
 	import MessageList from "~/components/message_list.svelte"
 	import MessageForm from "~/components/message_form.svelte"
-	import SignUpForm from "~/components/signup_form.svelte"
-	import client from "~/lib/authentication_client"
-	import session, { authentication } from "~/store/session"
+	import AuthenticationForm from "~/components/authentication_form.svelte"
+	import client from "~/clients/authentication_client"
+	import session, { authentication } from "~/stores/session"
 
 	onMount(() => {
-		authentication(client.isSignedIn())
+		authentication(client.isSignedIn({})).catch(console.error)
 	})
-
-	$: isSignedIn = $session === "authenticated"
 </script>
 
-{#if isSignedIn}
+{#if $session === "authenticated"}
 	<MessageForm />
 	<MessageList />
+{:else if $session === "unauthenticated"}
+	<AuthenticationForm />
 {:else}
-	<SignUpForm />
+	<div class="text-white">loading...</div>
 {/if}

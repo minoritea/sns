@@ -14,3 +14,15 @@ func GetUser[IDType model.ID | string](db *Engine, id IDType) (*model.User, erro
 	}
 	return &user, nil
 }
+
+type UserParameter interface {
+	GetName() string
+	GetEmail() string
+	GetPassword() string
+}
+
+func CreateUser(db *Engine, u UserParameter) (*model.User, error) {
+	user := model.User{ID: model.NewID(), Name: u.GetName(), Email: u.GetEmail(), Password: u.GetPassword()}
+	_, err := db.Insert(&user)
+	return &user, err
+}
