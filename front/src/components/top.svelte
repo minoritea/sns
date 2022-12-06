@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte"
-	import MessageList from "~/components/message_list.svelte"
-	import MessageForm from "~/components/message_form.svelte"
+	import TimeLine from "~/components/timeline.svelte"
 	import AuthenticationForm from "~/components/authentication_form.svelte"
+	import Sidebar from "~/components/sidebar.svelte"
 	import client from "~/clients/authentication_client"
 	import session, { authentication } from "~/stores/session"
 
@@ -11,11 +11,16 @@
 	})
 </script>
 
-{#if $session === "authenticated"}
-	<MessageForm />
-	<MessageList />
-{:else if $session === "unauthenticated"}
-	<AuthenticationForm />
+{#if $session !== "unauthenticated"}
+	<div class="flex justify-center mt-12 gap-4">
+		<div>
+			<Sidebar />
+		</div>
+		<div>
+			<TimeLine />
+		</div>
+		<div></div>
+	</div>
 {:else}
-	<div class="text-white">loading...</div>
+	<AuthenticationForm />
 {/if}

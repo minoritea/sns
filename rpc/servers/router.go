@@ -20,16 +20,16 @@ func New() (http.Handler, error) {
 		return nil, err
 	}
 
-	err = db.Sync2(model.Message{}, model.User{})
+	err = db.Sync2(model.Post{}, model.User{})
 	if err != nil {
 		return nil, err
 	}
 
-	pubsub := pubsub.New[model.UserMessage]()
+	pubsub := pubsub.New[model.UserPost, *model.User]()
 
 	mux := http.NewServeMux()
-	mux.Handle(protoconnect.NewMessageServiceHandler(
-		&MessageServer{db: db, pubsub: pubsub},
+	mux.Handle(protoconnect.NewPostServiceHandler(
+		&PostServer{db: db, pubsub: pubsub},
 		connect.WithInterceptors(
 			interceptors.NewErrorLoggingInterceptor(),
 			interceptors.NewAuthenticationInterceptor(db),

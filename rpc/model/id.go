@@ -2,7 +2,9 @@ package model
 
 import "github.com/oklog/ulid/v2"
 
-type ID string
+type Identifiable interface {
+	~string
+	String() string
+}
 
-func NewID() ID              { return ID(ulid.Make().String()) }
-func (id ID) String() string { return string(id) }
+func NewID[T Identifiable]() T { return T(ulid.Make().String()) }
