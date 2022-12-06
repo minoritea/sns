@@ -25,7 +25,7 @@ func New() (http.Handler, error) {
 		return nil, err
 	}
 
-	pubsub := pubsub.New[model.UserPost, *model.User]()
+	pubsub := pubsub.New[model.UserPost, model.UserID]()
 
 	mux := http.NewServeMux()
 	mux.Handle(protoconnect.NewPostServiceHandler(

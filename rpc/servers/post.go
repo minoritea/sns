@@ -16,7 +16,7 @@ import (
 
 type PostServer struct {
 	db     *db.Engine
-	pubsub *pubsub.PubSub[model.UserPost, *model.User]
+	pubsub *pubsub.PubSub[model.UserPost, model.UserID]
 }
 
 func convertUserPostToResponse(userPost model.UserPost) *proto.Response {
@@ -33,7 +33,7 @@ func (s *PostServer) OpenStream(ctx context.Context, req *connect.Request[emptyp
 	if user == nil {
 		return fmt.Errorf("session user is not found")
 	}
-	ch, unsubscribe := s.pubsub.Subscribe(user)
+	ch, unsubscribe := s.pubsub.Subscribe(user.ID)
 	defer unsubscribe()
 
 	userPosts, err := db.FindUserPosts(s.db, 10)
