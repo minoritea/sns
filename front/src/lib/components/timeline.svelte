@@ -43,11 +43,15 @@
 	}
 
 	li > img {
-		@apply bg-white rounded-full;
+		@apply bg-white rounded-full object-contain w-16 h-16;
 	}
 
 	li > div {
 		@apply flex flex-col ml-4;
+	}
+
+	li pre {
+		@apply font-sans;
 	}
 
 	.userName {
