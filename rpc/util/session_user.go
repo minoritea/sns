@@ -24,10 +24,23 @@ func WithSessionUser(ctx context.Context, user model.User) context.Context {
 func GetSessionID(header http.Header) string {
 	hr := http.Request{Header: header}
 	for _, cookie := range hr.Cookies() {
-		if cookie.Name == "id" {
+		if cookie.Name == sessionCookieName {
 			return cookie.Value
 		}
 	}
 
 	return ""
+}
+
+const sessionCookieName = "__Host-id"
+
+func CreateSessionCookie(id string) http.Cookie {
+	return http.Cookie{
+		Name:     sessionCookieName,
+		Value:    id,
+		Path:     "/",
+		SameSite: http.SameSiteStrictMode,
+		Secure:   true,
+		HttpOnly: true,
+	}
 }

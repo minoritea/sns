@@ -9,6 +9,8 @@ import (
 )
 
 type Engine = xorm.Engine
+type Session = xorm.Session
+type DB = xorm.Interface
 
 func New(isDevelopment bool) (*Engine, error) {
 	engine, err := xorm.NewEngine("sqlite3", "sns.db")
@@ -36,4 +38,14 @@ func MustOne(has bool, err error) error {
 	}
 
 	return nil
+}
+
+func Transaction[T any](engine *Engine, f func(db DB) (*T, error)) (*T, error) {
+	result, err := engine.Transaction(func(session *Session) (any, error) {
+		return f(session)
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*T), nil
 }

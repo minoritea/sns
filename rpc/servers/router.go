@@ -20,7 +20,7 @@ func New() (http.Handler, error) {
 		return nil, err
 	}
 
-	err = db.Sync2(model.Post{}, model.User{})
+	err = db.Sync2(model.Post{}, model.User{}, model.Session{})
 	if err != nil {
 		return nil, err
 	}

@@ -7,7 +7,7 @@
 	let password = ""
 	
 	function signUp(event: SubmitEvent) {
-    event.preventDefault()
+		event.preventDefault()
 		authentication(client.signUp({name, email, password})).then(() => {
 			window.location.href = "/"
 		}).catch(console.error)

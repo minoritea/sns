@@ -10,6 +10,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/minoritea/sns/rpc/db"
+	"github.com/minoritea/sns/rpc/model"
 	"github.com/minoritea/sns/rpc/util"
 )
 
@@ -49,7 +50,7 @@ func setUserFromCookie(ctx context.Context, engine *db.Engine, header http.Heade
 		return nil, fmt.Errorf("session id is not found")
 	}
 
-	user, err := db.GetUser(engine, id)
+	user, err := db.FindUserBySessionID(engine, model.SessionID(id))
 	if err != nil {
 		return nil, err
 	}
