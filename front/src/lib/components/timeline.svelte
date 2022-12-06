@@ -43,7 +43,7 @@
 	}
 
 	li > img {
-		@apply bg-white rounded-full;
+		@apply bg-white rounded-full object-contain w-16 h-16;
 	}
 
 	li > div {
