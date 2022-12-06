@@ -1,18 +1,20 @@
 <script lang="ts">
-	import { authentication } from "$lib/stores/session"
-	import client from "$lib/clients/authentication_client"
+	import { authentication } from '$lib/stores/session';
+	import client from '$lib/clients/authentication_client';
 
-	let name = ""
-	let password = ""
-	
+	let name = '';
+	let password = '';
+
 	function signIn(event: SubmitEvent) {
-		event.preventDefault()
-		authentication(client.signIn({name, password})).then(() => {
-			window.location.href = "/"
-		}).catch(console.error)
+		event.preventDefault();
+		authentication(client.signIn({ name, password }))
+			.then(() => {
+				window.location.href = '/';
+			})
+			.catch(console.error);
 	}
 
-	$: submitDisabled = name === "" || password === ""
+	$: submitDisabled = name === '' || password === '';
 </script>
 
 <div class="authenticatoin-box">
@@ -57,10 +59,9 @@
 	.name-box-inline > input {
 		@apply rounded-r w-full bg-gray-300 focus:ring-blue-500;
 	}
-	.authenticatoin-box input[type=submit] {
+	.authenticatoin-box input[type='submit'] {
 		@apply rounded-lg w-1/3 text-center mt-4 py-1 bg-cyan-200 text-gray-800 font-bold;
 	}
 	.authenticatoin-box a {
-
 	}
 </style>
