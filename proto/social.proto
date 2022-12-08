@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package sns;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/minoritea/sns/rpc/proto";
+
+service SocialService {
+	rpc Follow(FollowRequest) returns (google.protobuf.Empty);
+}
+
+message FollowRequest {
+	string followerName = 1;
+}

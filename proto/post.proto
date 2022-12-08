@@ -16,6 +16,6 @@ message Response {
 }
 
 message Post {
-  string userName =1;
+  string userName = 1;
   string body = 2;
 }

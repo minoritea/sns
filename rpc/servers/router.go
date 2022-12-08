@@ -19,15 +19,10 @@ func New() (http.Handler, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	err = db.Sync2(model.Post{}, model.User{}, model.Session{})
-	if err != nil {
-		return nil, err
-	}
-
 	pubsub := pubsub.New[model.UserPost, model.UserID]()
 
 	mux := http.NewServeMux()
+
 	mux.Handle(protoconnect.NewPostServiceHandler(
 		&PostServer{db: db, pubsub: pubsub},
 		connect.WithInterceptors(
@@ -35,10 +30,19 @@ func New() (http.Handler, error) {
 			interceptors.NewAuthenticationInterceptor(db),
 		),
 	))
+
 	mux.Handle(protoconnect.NewAuthenticationServiceHandler(
 		&AuthenticationServer{db: db},
 		connect.WithInterceptors(
 			interceptors.NewErrorLoggingInterceptor(),
+		),
+	))
+
+	mux.Handle(protoconnect.NewSocialServiceHandler(
+		&SocialServer{db: db},
+		connect.WithInterceptors(
+			interceptors.NewErrorLoggingInterceptor(),
+			interceptors.NewAuthenticationInterceptor(db),
 		),
 	))
 

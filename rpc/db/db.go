@@ -6,6 +6,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"xorm.io/xorm"
 	"xorm.io/xorm/names"
+
+	"github.com/minoritea/sns/rpc/model"
 )
 
 type Engine = xorm.Engine
@@ -21,6 +23,10 @@ func New(isDevelopment bool) (*Engine, error) {
 	engine.SetMapper(names.GonicMapper{})
 	if isDevelopment {
 		engine.ShowSQL(true)
+	}
+	err = engine.Sync2(model.Post{}, model.User{}, model.Session{}, model.Following{})
+	if err != nil {
+		return nil, err
 	}
 
 	return engine, nil
