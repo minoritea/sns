@@ -34,7 +34,7 @@
 
 <style lang="postcss">
 	ul {
-		@apply mx-auto md:w-[600px] lg:w-[800px] bg-gray-300 rounded-lg flex flex-col gap-4 divide-y-2 border-gray-200;
+		@apply mx-auto md:w-[600px] lg:w-[800px] bg-gray-300 rounded-lg flex flex-col gap-4 divide-y-2 divide-gray-50;
 		min-height: 100svh;
 	}
 
@@ -51,7 +51,7 @@
 	}
 
 	li pre {
-		@apply font-sans;
+		@apply font-sans font-medium text-base;
 	}
 
 	.userName {
