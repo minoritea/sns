@@ -1,22 +1,11 @@
 <script lang="ts">
-	import client from '$lib/clients/post_client';
 	import type { Post } from '$lib/clients/post_client';
-	import session from '$lib/stores/session';
+	import socialClient from '$lib/clients/social_client';
 
-	let posts: Post[] = [];
-
-	async function load() {
-		for await (const { post } of client.openStream({})) {
-			if (post != null) {
-				posts = [post].concat(posts);
-			}
-		}
-	}
-
-	$: {
-		if ($session === 'authenticated') {
-			load().then(console.error);
-		}
+	export let posts: Post[] = [];
+	
+	async function follow(followerName: string) {
+		await socialClient.follow({ followerName })
 	}
 </script>
 
@@ -25,7 +14,10 @@
 		<li>
 			<img src="/person.svg" alt="portlait" />
 			<div>
-				<div class="userName">@{post.userName}</div>
+				<div class="flex">
+					<div class="userName">@{post.userName}</div>
+					<button class="ml-4 rounded-lg p-1 bg-gray-400" on:click={() => follow(post.userName)}>Follow</button>
+				</div>
 				<pre class="body">{post.body}</pre>
 			</div>
 		</li>

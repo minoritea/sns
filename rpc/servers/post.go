@@ -28,7 +28,7 @@ func convertUserPostToResponse(userPost model.UserPost) *proto.Response {
 	}
 }
 
-func (s *PostServer) OpenStream(ctx context.Context, req *connect.Request[emptypb.Empty], ss *connect.ServerStream[proto.Response]) error {
+func (s *PostServer) OpenLocalStream(ctx context.Context, req *connect.Request[emptypb.Empty], ss *connect.ServerStream[proto.Response]) error {
 	user := util.GetSessionUser(ctx)
 	if user == nil {
 		return fmt.Errorf("session user is not found")
@@ -37,6 +37,40 @@ func (s *PostServer) OpenStream(ctx context.Context, req *connect.Request[emptyp
 	defer unsubscribe()
 
 	userPosts, err := db.FindUserPosts(s.db, 10)
+	if err != nil {
+		return err
+	}
+
+	for i := len(userPosts); i >= 1; i-- {
+		err := ss.Send(convertUserPostToResponse(userPosts[i-1]))
+		if err != nil {
+			return err
+		}
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		case userPost := <-ch:
+			err := ss.Send(convertUserPostToResponse(userPost))
+			if err != nil {
+				return err
+			}
+		}
+	}
+}
+
+func (s *PostServer) OpenSocialStream(ctx context.Context, req *connect.Request[emptypb.Empty], ss *connect.ServerStream[proto.Response]) error {
+	user := util.GetSessionUser(ctx)
+	if user == nil {
+		return fmt.Errorf("session user is not found")
+	}
+	ch, unsubscribe := s.pubsub.Subscribe(user.ID)
+	defer unsubscribe()
+
+	userPosts, err := db.FindUserAndFolloweePosts(s.db, user.ID, 10)
 	if err != nil {
 		return err
 	}

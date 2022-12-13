@@ -1,6 +1,8 @@
 package db
 
 import (
+	"fmt"
+
 	"github.com/minoritea/sns/rpc/model"
 )
 
@@ -17,6 +19,9 @@ func FindUserFollowers(db DB, userID model.UserID) ([]model.User, error) {
 }
 
 func FollowUser(db DB, followerID, followeeID model.UserID) error {
+	if followerID == followeeID {
+		return fmt.Errorf("cannot follow themself")
+	}
 	_, err := db.Insert(model.Following{
 		FolloweeID: followeeID,
 		FollowerID: followerID,

@@ -3,8 +3,10 @@
 </script>
 
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import TimeLine from '$lib/components/timeline.svelte';
+	import LocalTimeline from '$lib/components/local_timeline.svelte';
+	import SocialTimeline from '$lib/components/social_timeline.svelte';
 	import AuthenticationForm from '$lib/components/authentication_form.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import client from '$lib/clients/authentication_client';
@@ -21,7 +23,11 @@
 			<Sidebar />
 		</div>
 		<div>
-			<TimeLine />
+		{#if $page.url.searchParams.get('tl') === 'social'}
+			<SocialTimeline />
+		{:else}
+			<LocalTimeline />
+		{/if}
 		</div>
 		<div />
 	</div>
